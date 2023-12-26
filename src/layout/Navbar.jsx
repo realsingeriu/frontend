@@ -5,9 +5,9 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-md bg-primary navbar-dark">
       <div className="container-fluid">
-        <a className="navbar-brand text-warning" href="#">
+        <Link className="navbar-brand text-warning" to="/">
           리액트 & 스프링부트
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
