@@ -1,8 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 
 const EditUser = () => {
+  //"/user/:id" 의 값이 "/user/123" 이면 id의 값으로 123을 받음
+  const { id } = useParams(); // pathVariable 에 id값을 받기
+
   const Navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
@@ -18,16 +21,31 @@ const EditUser = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  // 수정 전 유저 데이터 가져오기
+  const loadUser = async () => {
+    const result = await axios.get(`http://localhost:8080/users/${id}`);
+    setUser(result.data);
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    //console.log('submit 안함');
     if (name == "" || username == "" || email == "") {
       alert("입력창에 내용을 입력해주세요");
       return;
     }
-    await axios.post("http://localhost:8080/users", user);
+
+    // 기존 사용자 정보를 수정
+    await axios.put(`http://localhost:8080/users/${id}`, user);
+    // 수정 완료후 홈으로
     Navigate("/");
   };
+
+  //페이지 시작시 유저데이터를 받아 user에 저장
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="container">
@@ -77,13 +95,13 @@ const EditUser = () => {
                 onChange={onInputChange}
               />
             </div>
-            {/* 가입 및 취소 버튼 */}
+            {/* 수정 및 취소 버튼 */}
             <div className="mb-3 text-center">
               <button
                 type="submit"
                 className="btn btn-outline-primary px-3 mx-2"
               >
-                가입
+                수정 완료
               </button>
               <Link
                 to="/"

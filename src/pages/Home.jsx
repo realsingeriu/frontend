@@ -38,7 +38,7 @@ function Home() {
               <td>
                 <button className="btn btn-outline-secondary mx-2">보기</button>
                 <Link
-                  to={"/edituser/${user.id}"}
+                  to={`/edituser/${user.id}`}
                   className="btn btn-outline-warning mx-2"
                 >
                   수정
