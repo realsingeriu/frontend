@@ -21,6 +21,10 @@ const AddUser = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     //console.log('submit 안함');
+    if (name == "" || username == "" || email == "") {
+      alert("입력창에 내용을 입력해주세요");
+      return;
+    }
     await axios.post("http://localhost:8080/users", user);
     Navigate("/");
   };
